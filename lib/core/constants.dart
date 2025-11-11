@@ -10,12 +10,14 @@ class AppColors {
 class AppStrings {
   static const appName = 'Mic to Speaker';
   static const rateUrl = 'https://example.com/rate';
-  static const shareText = 'Try Mic to Speaker: Realtime mic monitor with EQ & effects';
+  static const shareText =
+      'Try Mic to Speaker: Realtime mic monitor with EQ & effects';
   static const privacyUrl = 'https://example.com/privacy';
 }
 
 enum MicPosition { bottom, back }
 
 extension MicPositionLabel on MicPosition {
-  String get label => this == MicPosition.bottom ? 'Mobile - Bottom' : 'Mobile - Back';
+  String get label =>
+      this == MicPosition.bottom ? 'Mobile - Bottom' : 'Mobile - Back';
 }

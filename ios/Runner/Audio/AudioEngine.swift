@@ -11,6 +11,7 @@ struct DspParams: Codable {
     let echoDelayMs: Int
     let echoFeedback: Double
     let volume: Double
+    let voicePreset: String
 }
 
 class AudioEngineIOS {
@@ -18,6 +19,7 @@ class AudioEngineIOS {
     private let engine = AVAudioEngine()
     private let eqNode = AVAudioUnitEQ(numberOfBands: 5)
     private let pitchNode = AVAudioUnitTimePitch()
+    private let distortionNode = AVAudioUnitDistortion()
     private let reverbNode = AVAudioUnitReverb()
     private let delayNode = AVAudioUnitDelay()
     private var tapInstalled = false
@@ -48,11 +50,17 @@ class AudioEngineIOS {
         reverbNode.wetDryMix = 0
         delayNode.delayTime = 0.24
         delayNode.feedback = 35
+        delayNode.wetDryMix = 0
         pitchNode.rate = 1.0
         pitchNode.pitch = 0 // cents
+        distortionNode.loadFactoryPreset(.drumsBitBrush)
+        distortionNode.wetDryMix = 0
+        distortionNode.preGain = 0
+        distortionNode.bypass = true
 
         engine.attach(eqNode)
         engine.attach(pitchNode)
+        engine.attach(distortionNode)
         engine.attach(reverbNode)
         engine.attach(delayNode)
 
@@ -60,7 +68,8 @@ class AudioEngineIOS {
         let format = input.inputFormat(forBus: 0)
         engine.connect(input, to: eqNode, format: format)
         engine.connect(eqNode, to: pitchNode, format: format)
-        engine.connect(pitchNode, to: reverbNode, format: format)
+        engine.connect(pitchNode, to: distortionNode, format: format)
+        engine.connect(distortionNode, to: reverbNode, format: format)
         engine.connect(reverbNode, to: delayNode, format: format)
         engine.connect(delayNode, to: mainMixer, format: format)
 
@@ -99,9 +108,53 @@ class AudioEngineIOS {
         // Echo
         delayNode.delayTime = p.echo ? Double(p.echoDelayMs) / 1000.0 : 0
         delayNode.feedback = p.echo ? Float(p.echoFeedback * 100.0) : 0
+        delayNode.wetDryMix = p.echo ? 35 : 0
         // Volume (post-fader)
         engine.mainMixerNode.outputVolume = Float(p.volume)
+        applyVoicePreset(p.voicePreset)
     }
+
+    private func applyVoicePreset(_ raw: String) {
+        let preset = VoicePreset(rawValue: raw) ?? .normal
+        switch preset {
+        case .normal:
+            distortionNode.bypass = true
+            distortionNode.wetDryMix = 0
+            distortionNode.preGain = 0
+        case .child:
+            distortionNode.bypass = false
+            distortionNode.loadFactoryPreset(.multiCellphoneConcert)
+            distortionNode.preGain = -6
+            distortionNode.wetDryMix = 12
+        case .funny:
+            distortionNode.bypass = false
+            distortionNode.loadFactoryPreset(.multiCellphoneConcert)
+            distortionNode.preGain = -3
+            distortionNode.ringModMix = 50
+            distortionNode.wetDryMix = 25
+        case .robot:
+            distortionNode.bypass = false
+            distortionNode.loadFactoryPreset(.speechAlienChatter)
+            distortionNode.preGain = -8
+            distortionNode.ringModMix = 65
+            distortionNode.wetDryMix = 45
+        case .deep:
+            distortionNode.bypass = false
+            distortionNode.loadFactoryPreset(.drumsBitBrush)
+            distortionNode.preGain = -10
+            distortionNode.wetDryMix = 15
+        case .alien:
+            distortionNode.bypass = false
+            distortionNode.loadFactoryPreset(.multiBrokenSpeaker)
+            distortionNode.preGain = -4
+            distortionNode.ringModMix = 70
+            distortionNode.wetDryMix = 40
+        }
+    }
+}
+
+private enum VoicePreset: String {
+    case normal, child, funny, robot, deep, alien
 }
 
 private func log2(_ x: Double) -> Double { return Darwin.log2(x) }

@@ -43,13 +43,26 @@ class EffectsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Voice Effects', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Voice Effects',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 12),
-            _labeled('Pitch (${pitch.toStringAsFixed(2)}×)',
-              Slider(value: pitch, min: 0.5, max: 2.0, onChanged: onPitch)),
-            _labeled('Formant/Bass ($formant)',
-              Slider(value: formant.toDouble(), min: -12, max: 12, divisions: 24,
-                label: '$formant', onChanged: (v)=> onFormant(v.round()))),
+            _labeled(
+              'Pitch (${pitch.toStringAsFixed(2)}×)',
+              Slider(value: pitch, min: 0.5, max: 2.0, onChanged: onPitch),
+            ),
+            _labeled(
+              'Formant/Bass ($formant)',
+              Slider(
+                value: formant.toDouble(),
+                min: -12,
+                max: 12,
+                divisions: 24,
+                label: '$formant',
+                onChanged: (v) => onFormant(v.round()),
+              ),
+            ),
             Row(
               children: [
                 Switch(value: reverb, onChanged: onReverb),
@@ -57,8 +70,15 @@ class EffectsCard extends StatelessWidget {
               ],
             ),
             if (reverb)
-              _labeled('Reverb Wet (${(reverbWet*100).round()}%)',
-                Slider(value: reverbWet, min: 0, max: 1, onChanged: onReverbWet)),
+              _labeled(
+                'Reverb Wet (${(reverbWet * 100).round()}%)',
+                Slider(
+                  value: reverbWet,
+                  min: 0,
+                  max: 1,
+                  onChanged: onReverbWet,
+                ),
+              ),
             Row(
               children: [
                 Switch(value: echo, onChanged: onEcho),
@@ -66,11 +86,25 @@ class EffectsCard extends StatelessWidget {
               ],
             ),
             if (echo) ...[
-              _labeled('Delay ($echoDelay ms)',
-                Slider(value: echoDelay.toDouble(), min: 50, max: 800, divisions: 15,
-                  onChanged: (v)=> onEchoDelay(v.round()))),
-              _labeled('Feedback (${(echoFeedback*100).round()}%)',
-                Slider(value: echoFeedback, min: 0, max: 0.95, onChanged: onEchoFeedback)),
+              _labeled(
+                'Delay ($echoDelay ms)',
+                Slider(
+                  value: echoDelay.toDouble(),
+                  min: 50,
+                  max: 800,
+                  divisions: 15,
+                  onChanged: (v) => onEchoDelay(v.round()),
+                ),
+              ),
+              _labeled(
+                'Feedback (${(echoFeedback * 100).round()}%)',
+                Slider(
+                  value: echoFeedback,
+                  min: 0,
+                  max: 0.95,
+                  onChanged: onEchoFeedback,
+                ),
+              ),
             ],
           ],
         ),

@@ -11,11 +11,7 @@ class VolumeSlider extends StatelessWidget {
       children: [
         RotatedBox(
           quarterTurns: 3,
-          child: Slider(
-            value: value,
-            onChanged: onChanged,
-            min: 0, max: 1,
-          ),
+          child: Slider(value: value, onChanged: onChanged, min: 0, max: 1),
         ),
         const SizedBox(height: 8),
         const Text('Volume', style: TextStyle(fontWeight: FontWeight.w600)),

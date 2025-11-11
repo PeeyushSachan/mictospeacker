@@ -54,6 +54,7 @@ private fun Map<*, *>.toDspParams(): DspParams {
         echo = this["echo"] as Boolean,
         echoDelayMs = (this["echoDelayMs"] as Number).toInt(),
         echoFeedback = (this["echoFeedback"] as Number).toDouble(),
-        volume = (this["volume"] as Number).toDouble()
+        volume = (this["volume"] as Number).toDouble(),
+        voicePreset = (this["voicePreset"] as? String) ?: "normal"
     )
 }

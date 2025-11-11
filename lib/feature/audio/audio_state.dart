@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+enum VoicePreset { normal, child, funny, robot, deep, alien }
+
 class AudioState extends Equatable {
   final bool isRunning;
   final double volume; // 0..1
@@ -12,10 +14,12 @@ class AudioState extends Equatable {
   final int echoDelayMs;
   final double echoFeedback; // 0..0.95
   final double inputLevel; // 0..1 visual only
+  final VoicePreset voicePreset;
+  final bool isSyncing;
   const AudioState({
     this.isRunning = false,
     this.volume = 1.0,
-    this.eqGains = const [0,0,0,0,0],
+    this.eqGains = const [0, 0, 0, 0, 0],
     this.pitch = 1.0,
     this.formant = 0,
     this.reverb = false,
@@ -24,6 +28,8 @@ class AudioState extends Equatable {
     this.echoDelayMs = 240,
     this.echoFeedback = 0.35,
     this.inputLevel = 0.0,
+    this.voicePreset = VoicePreset.normal,
+    this.isSyncing = false,
   });
 
   AudioState copyWith({
@@ -38,6 +44,8 @@ class AudioState extends Equatable {
     int? echoDelayMs,
     double? echoFeedback,
     double? inputLevel,
+    VoicePreset? voicePreset,
+    bool? isSyncing,
   }) => AudioState(
     isRunning: isRunning ?? this.isRunning,
     volume: volume ?? this.volume,
@@ -50,8 +58,24 @@ class AudioState extends Equatable {
     echoDelayMs: echoDelayMs ?? this.echoDelayMs,
     echoFeedback: echoFeedback ?? this.echoFeedback,
     inputLevel: inputLevel ?? this.inputLevel,
+    voicePreset: voicePreset ?? this.voicePreset,
+    isSyncing: isSyncing ?? this.isSyncing,
   );
 
   @override
-  List<Object?> get props => [isRunning, volume, eqGains, pitch, formant, reverb, reverbWet, echo, echoDelayMs, echoFeedback, inputLevel];
+  List<Object?> get props => [
+    isRunning,
+    volume,
+    eqGains,
+    pitch,
+    formant,
+    reverb,
+    reverbWet,
+    echo,
+    echoDelayMs,
+    echoFeedback,
+    inputLevel,
+    voicePreset,
+    isSyncing,
+  ];
 }

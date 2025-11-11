@@ -15,7 +15,10 @@ class EqCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Equalizer', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Equalizer',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 12),
             SizedBox(
               height: 260,
@@ -29,7 +32,9 @@ class EqCard extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: gains[i],
-                          min: -12, max: 12, divisions: 24,
+                          min: -12,
+                          max: 12,
+                          divisions: 24,
                           label: '${gains[i].toStringAsFixed(0)} dB',
                           onChanged: (v) => onChange(i, v),
                         ),

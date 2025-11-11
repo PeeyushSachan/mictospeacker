@@ -16,6 +16,7 @@ class DspParams {
     required this.echoDelayMs,
     required this.echoFeedback,
     required this.volume,
+    required this.voicePreset,
   });
   final List<EqBand> eqBands;
   final double pitch;
@@ -26,6 +27,7 @@ class DspParams {
   final int echoDelayMs;
   final double echoFeedback;
   final double volume;
+  final String voicePreset;
 
   Map<String, dynamic> toJson() => {
     'eq': eqBands.map((e) => e.toJson()).toList(),
@@ -37,6 +39,7 @@ class DspParams {
     'echoDelayMs': echoDelayMs,
     'echoFeedback': echoFeedback,
     'volume': volume,
+    'voicePreset': voicePreset,
   };
 }
 
