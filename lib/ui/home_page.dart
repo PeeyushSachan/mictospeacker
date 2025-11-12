@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mic_to_speaker/ads/ads.dart';
 
 import '../core/constants.dart';
 import '../feature/audio/audio_controller.dart';
@@ -221,6 +222,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
         ],
       ),
+
+       bottomNavigationBar: SafeArea(
+        top: false,
+        child: Ads.instance.banner()),
     );
   }
 }

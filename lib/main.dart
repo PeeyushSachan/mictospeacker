@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'ads/ads.dart';
 import 'core/constants.dart';
 import 'ui/splash_screen.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+    // Initialize Google Mobile Ads SDK before running the app.
+  await MobileAds.instance.initialize();
+  await Ads.instance.initialize();
   runApp(const ProviderScope(child: App()));
 }
 

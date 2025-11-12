@@ -6,6 +6,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mic_to_speaker/ads/ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'home_page.dart';
@@ -87,7 +88,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       if (!mounted) return;
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const ExitAdGuard(child: HomePage())));
     });
   }
 
