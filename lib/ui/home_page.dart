@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../ads/ads.dart';
 import '../core/constants.dart';
 import '../feature/audio/audio_controller.dart';
 import 'widgets/mic_button.dart';
@@ -221,6 +222,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
         ],
       ),
+      bottomNavigationBar: Ads.instance.banner(),
     );
   }
 }

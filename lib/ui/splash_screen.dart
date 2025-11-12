@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../ads/ads.dart';
 import 'home_page.dart';
 
 const _primaryColor = Color(0xFF5B86E5);
@@ -85,9 +86,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _navigated = true;
     Future.delayed(const Duration(milliseconds: 1800), () {
       if (!mounted) return;
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const ExitAdGuard(child: HomePage())),
+      );
     });
   }
 
@@ -111,12 +112,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         ]),
         builder: (context, _) {
           final bgColors = _buildGradientColors(theme.brightness);
-          final alignment =
-              AlignmentTween(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ).transform(_bgController.value) ??
-              Alignment.center;
+          final Alignment alignment = AlignmentTween(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ).transform(_bgController.value);
 
           return Container(
             decoration: BoxDecoration(
@@ -132,7 +131,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   child: CustomPaint(
                     painter: _WavePainter(
                       progress: _waveController.value,
-                      color: colorScheme.onPrimary.withOpacity(0.08),
+                      color: colorScheme.onPrimary.withValues(alpha: 0.08),
                     ),
                   ),
                 ),
@@ -143,7 +142,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         center: Alignment(0, -0.2),
                         radius: 1.2 + (_pulseController.value * 0.2),
                         colors: [
-                          Colors.white.withOpacity(0.08),
+                          Colors.white.withValues(alpha: 0.08),
                           Colors.transparent,
                         ],
                       ),
@@ -152,7 +151,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 ),
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 100),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 100,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +193,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: _secondaryColor.withOpacity(0.6),
+                color: _secondaryColor.withValues(alpha: 0.6),
                 blurRadius: 24,
                 spreadRadius: 4,
               ),
@@ -234,7 +236,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   Widget _buildPermissionArea(ThemeData theme) {
     final status = _micStatus;
-    final textColor = theme.colorScheme.onPrimaryContainer.withOpacity(0.85);
+    final textColor = theme.colorScheme.onPrimaryContainer.withValues(
+      alpha: 0.85,
+    );
 
     if (status == null) {
       return _InfoCard(
@@ -331,7 +335,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           child: LinearProgressIndicator(
             minHeight: 6,
             color: Colors.white,
-            backgroundColor: Colors.white.withOpacity(0.2),
+            backgroundColor: Colors.white.withValues(alpha: 0.2),
           ),
         ),
         const SizedBox(height: 18),
@@ -341,9 +345,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   List<Color> _buildGradientColors(Brightness brightness) {
     if (brightness == Brightness.dark) {
-      return [_primaryColor.withOpacity(0.9), _secondaryColor.withOpacity(0.9)];
+      return [
+        _primaryColor.withValues(alpha: 0.9),
+        _secondaryColor.withValues(alpha: 0.9),
+      ];
     }
-    return [_secondaryColor.withOpacity(0.9), _primaryColor.withOpacity(0.95)];
+    return [
+      _secondaryColor.withValues(alpha: 0.9),
+      _primaryColor.withValues(alpha: 0.95),
+    ];
   }
 }
 
@@ -364,12 +374,12 @@ class _InfoCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.12),
+        color: Colors.white.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -421,10 +431,8 @@ class _WavePainter extends CustomPainter {
     for (int i = 0; i < 3; i++) {
       final phase = progress + (i * 0.2);
       final path = _buildWavePath(size, phase, amplitude: 10 + (i * 6));
-      canvas.drawPath(
-        path,
-        paint..color = color.withOpacity((0.3 - (i * 0.08)).clamp(0, 1)),
-      );
+      final alpha = (0.3 - (i * 0.08)).clamp(0.0, 1.0).toDouble();
+      canvas.drawPath(path, paint..color = color.withValues(alpha: alpha));
     }
   }
 
