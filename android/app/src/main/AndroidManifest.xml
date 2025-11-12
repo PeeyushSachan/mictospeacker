@@ -5,7 +5,7 @@
 <uses-feature android:name="android.hardware.microphone" android:required="false" />
 
     <application
-        android:label="com.techfoon.micky"
+        android:label="Micky"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
