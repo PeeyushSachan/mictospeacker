@@ -12,7 +12,7 @@ import 'widgets/volume_slider.dart';
 import 'widgets/eq_card.dart';
 import 'widgets/effects_card.dart';
 import 'widgets/voice_changer_card.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -21,6 +21,14 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+
+    Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   MicPosition pos = MicPosition.back;
 
   @override
@@ -33,12 +41,17 @@ class _HomePageState extends ConsumerState<HomePage> {
         title: const Text(AppStrings.appName),
         actions: [
           PopupMenuButton<String>(
-            onSelected: (v) {
+            onSelected: (value) {
               // TODO: handle menu actions
+                  if (value == 'privacy') {
+          _launchURL('https://peeyushsachan.github.io/privacy-policy/micky-privacy-policy.html');
+        } else if (value == 'terms') {
+          _launchURL('https://peeyushsachan.github.io/privacy-policy/micky-terms.html');
+        }
             },
             itemBuilder: (c) => const [
-              PopupMenuItem(value: 'rate', child: Text('Rate this app')),
-              PopupMenuItem(value: 'share', child: Text('Share this app')),
+           //   PopupMenuItem(value: 'rate', child: Text('Rate this app')),
+            //  PopupMenuItem(value: 'share', child: Text('Share this app')),
               PopupMenuItem(value: 'privacy', child: Text('Privacy Policy')),
             ],
           ),
