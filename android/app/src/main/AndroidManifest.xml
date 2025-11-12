@@ -5,11 +5,11 @@
 <uses-feature android:name="android.hardware.microphone" android:required="false" />
 
     <application
-        android:label="mic_to_speaker"
+        android:label="com.techfoon.micky"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name="com.example.mic_to_speaker.MainActivity"
+            android:name="com.techfoon.micky.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

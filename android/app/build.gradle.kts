@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mic_to_speaker"        // <-- your final package
+    namespace = "com.techfoon.micky"        // <-- your final package
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.mic_to_speaker"    // <-- same as namespace
+        applicationId = "com.techfoon.micky"
         minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

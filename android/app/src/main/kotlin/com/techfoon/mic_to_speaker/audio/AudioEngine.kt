@@ -1,4 +1,4 @@
-package com.example.mic_to_speaker.audio
+package com.techfoon.micky.audio
 
 import android.media.*
 import kotlinx.coroutines.*

@@ -1,6 +1,6 @@
-package com.example.mic_to_speaker
+package com.techfoon.micky
 
-import com.example.mic_to_speaker.audio.*
+import com.techfoon.micky.audio.*
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
